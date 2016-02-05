@@ -29,7 +29,7 @@ store_t;
 static store_t store =
 {
    .stock = INITIAL_STOCK,
-   .mutex_stock = PTHREAD_MUTEX_INITIALIZER,
+   .mutex_stock = PgHREAD_MUTEX_INITIALIZER,
 };
 
 
