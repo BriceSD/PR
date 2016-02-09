@@ -53,5 +53,10 @@ int main(int argc, char *argv[]){
     ret = pthread_create(&thread1, NULL, afficherID, thread_info1);
     //printf("Returned value : %d\n", ret);
   }
+
+  //dafuk ? Je fou quoi la
+  for(int i = 0; i < 5; i++){
+    pthread_join(thread1, NULL);
+  }
   pthread_join(thread1, NULL);
 }
