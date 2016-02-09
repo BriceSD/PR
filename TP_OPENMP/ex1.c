@@ -1,12 +1,12 @@
 #include <omp.h>
 #include <stdio.h>
 #include <stdlib.h>
-#define CHUNKSIZE 25000
+#define CHUNKSIZE 25
 #define N 100000
 
 int main(int argc, char *argv[]){
   int i, chunk, tid, nthreads;
-  double time_start, time_end, execution_time;
+  double time_start_thread,time_start,time_end_total, time_end, execution_time;
   float a[N], b[N], c[N];
 
   for(i = 0; i < N; i++)
@@ -21,21 +21,19 @@ int main(int argc, char *argv[]){
 //omp_set_num_threads(4);
 
 //Set le nombre de threads par une directive : num_threads(4)
-#pragma omp parallel shared(a,b,c,chunk) private(i, tid, nthreads) //num_threads(4)
+#pragma omp parallel shared(a,b,c,chunk) private(i, tid, nthreads,time_start_thread) //num_threads(4)
   {
     nthreads = omp_get_num_threads();
     tid = omp_get_thread_num();
     if(tid == 0)
       printf("Nombre de thread = %d\n", nthreads);
+    time_start_thread = omp_get_wtime();
 #pragma omp for schedule(static, chunk) nowait
     for(int i = 0; i < N; i++){
       c[i] = a[i] + b[i];
-
-      tid = omp_get_thread_num();
-      //printf("Nombre de thread = %d\nc[i] = %f\ntID = %d\n\n", nthreads, c[i], tid);
     }
+    tid = omp_get_thread_num();
+    printf("Temps d’execution thread %d : %fs\n",tid, omp_get_wtime()-time_start_thread);
   }
-  time_end = omp_get_wtime();
-  execution_time = time_end - time_start;
-  printf("Temps d’execution : %fs\n", execution_time);
+  printf("Temps d’execution total : %fs\n", omp_get_wtime() - time_start);
 }
