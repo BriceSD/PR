@@ -15,7 +15,7 @@ int main(int argc, char *argv[]){
 //Set le nombre de threads par variable d’environemment : export OMP_NUM_THREADS=4
 
 //Set le nombre de threads par une fonction
-//omp_set_num_threads(8);
+//omp_set_num_threads(4);
 
 //Set le nombre de threads par une directive (num_threads(4))
 #pragma omp parallel shared(a,b,c,chunk) private(i, tid, nthreads) //num_threads(4)
