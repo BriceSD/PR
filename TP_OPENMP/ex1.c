@@ -6,11 +6,14 @@
 
 int main(int argc, char *argv[]){
   int i, chunk, tid, nthreads;
+  double time_start, time_end, execution_time;
   float a[N], b[N], c[N];
 
   for(i = 0; i < N; i++)
     a[i] = b[i] = i*1.0;
   chunk = CHUNKSIZE;
+
+  time_start = omp_get_wtime();
 
 //Set le nombre de threads par variable d’environemment : export OMP_NUM_THREADS=4
 
@@ -29,4 +32,7 @@ int main(int argc, char *argv[]){
       printf("Nombre de thread = %d\nc[i] = %f\ntID = %d\n\n", nthreads, c[i], tid);
     }
   }
+  time_end = omp_get_wtime();
+  execution_time = time_end - time_start;
+  printf("Temps d’execution : %fs\n", execution_time);
 }
