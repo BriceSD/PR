@@ -1,8 +1,8 @@
 #include <omp.h>
 #include <stdio.h>
 #include <stdlib.h>
-#define CHUNKSIZE 100
-#define N 1000
+#define CHUNKSIZE 25000
+#define N 100000
 
 int main(int argc, char *argv[]){
   int i, chunk, tid, nthreads;
@@ -24,12 +24,15 @@ int main(int argc, char *argv[]){
 #pragma omp parallel shared(a,b,c,chunk) private(i, tid, nthreads) //num_threads(4)
   {
     nthreads = omp_get_num_threads();
-#pragma omp for schedule(dynamic, chunk) nowait
+    tid = omp_get_thread_num();
+    if(tid == 0)
+      printf("Nombre de thread = %d\n", nthreads);
+#pragma omp for schedule(static, chunk) nowait
     for(int i = 0; i < N; i++){
       c[i] = a[i] + b[i];
 
       tid = omp_get_thread_num();
-      printf("Nombre de thread = %d\nc[i] = %f\ntID = %d\n\n", nthreads, c[i], tid);
+      //printf("Nombre de thread = %d\nc[i] = %f\ntID = %d\n\n", nthreads, c[i], tid);
     }
   }
   time_end = omp_get_wtime();
