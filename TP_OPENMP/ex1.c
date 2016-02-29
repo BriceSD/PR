@@ -6,7 +6,7 @@
 
 int main(int argc, char *argv[]){
   int i, chunk, tid, nthreads;
-  double time_start_thread,time_start,time_end_total, time_end, execution_time;
+  double time_start_thread, time_start,time_end_total, time_end, execution_time;
   float a[N], b[N], c[N];
 
   for(i = 0; i < N; i++)
